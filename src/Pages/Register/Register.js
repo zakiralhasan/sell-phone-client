@@ -9,7 +9,7 @@ const Register = () => {
 
 
     //create or Register new user
-    const handleForm = (data) => {
+    const handleRegisterForm = (data) => {
 
         console.log(data)
 
@@ -18,8 +18,8 @@ const Register = () => {
     return (
         <div className="mx-2">
             <div className="bg-white max-w-sm mx-auto p-8 my-6 rounded-md shadow-md ">
-                <h1 className="text-xl ">Register Free!</h1>
-                <form onSubmit={handleSubmit(handleForm)}>
+                <h1 className="text-2xl font-medium mb-2">Register Free!</h1>
+                <form onSubmit={handleSubmit(handleRegisterForm)}>
                     <div className="">
                         <div className="form-control">
                             <label className="label">
@@ -97,7 +97,7 @@ const Register = () => {
                             <p className="text-xs text-gray-500 text-left mt-3">
                                 Already have an account?
                                 <Link to="/login" className="link link-hover">
-                                    <span className="ml-2 text-gray-400">
+                                    <span className="ml-2 text-gray-400 hover:text-black">
                                         Login to your account
                                     </span>
                                 </Link>
