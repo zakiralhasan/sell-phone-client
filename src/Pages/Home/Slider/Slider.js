@@ -12,19 +12,19 @@ import { Autoplay, Navigation } from "swiper";
 const Slider = () => {
     return (
         <div className='mx-2 my-5'>
-            <div className='border-4 border-[#2CBBD5] rounded-lg'>
+            <div className='border-4 border-[#2CBBD5] rounded-lg '>
                 <Swiper
                     navigation={true}
                     loop={true}
                     autoplay={true}
                     modules={[Navigation, Autoplay]}
-                    className="mySwiper"
+                    className=" w-full"
                 >
-                    <SwiperSlide><img src={banner1} alt="" /></SwiperSlide>
-                    <SwiperSlide><img src={banner2} alt="" /></SwiperSlide>
-                    <SwiperSlide><img src={banner3} alt="" /></SwiperSlide>
-                    <SwiperSlide><img src={banner4} alt="" /></SwiperSlide>
-                    <SwiperSlide><img src={banner5} alt="" /></SwiperSlide>
+                    <SwiperSlide><img className="w-full max-h-96" src={banner1} alt="" /></SwiperSlide>
+                    <SwiperSlide><img className="w-full max-h-96" src={banner2} alt="" /></SwiperSlide>
+                    <SwiperSlide><img className="w-full max-h-96" src={banner3} alt="" /></SwiperSlide>
+                    <SwiperSlide><img className="w-full max-h-96" src={banner4} alt="" /></SwiperSlide>
+                    <SwiperSlide><img className="w-full max-h-96" src={banner5} alt="" /></SwiperSlide>
                 </Swiper>
             </div>
         </div>

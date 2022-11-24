@@ -1,17 +1,16 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+
 
 const Login = () => {
     //used for react hook form
     const { register, handleSubmit, reset } = useForm();
 
-
     //login user
     const handleLoginForm = (data) => {
 
-        console.log(data)
+
 
     };
 

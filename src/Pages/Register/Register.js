@@ -2,18 +2,79 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useContext } from "react";
+import { AuthContext } from "../../Contexts/AuthProvider";
+import { useState } from "react";
 
 const Register = () => {
+    const [errorMessage, setErrorMessage] = useState()
     //used for react hook form
     const { register, handleSubmit, reset, formState: { errors }, } = useForm();
+    //used auth context
+    const { user, createUser, updateUserProfile, loginUserWithGoogle } = useContext(AuthContext)
 
 
     //create or Register new user
     const handleRegisterForm = (data) => {
+        const image = data.img[0]
+        const formData = new FormData();
+        formData.append('image', image)
 
-        console.log(data)
+        //uploade image to image server
+        const url = `https://api.imgbb.com/1/upload?&key=${process.env.REACT_APP_HOST_KEY}`
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(res => res.json())
+            .then(imgData => {
+                if (imgData.success) {
+                    // create new user
+                    createUser(data.email, data.password)
+                        .then(result => {
+                            const newUser = result.user;
+                            const userInfo = {
+                                name: data.name,
+                                email: newUser.email,
+                                role: data.select
+                            }
+                            //update user info
+                            updateUserInfoWithPicture(data.name, imgData.data.display_url, userInfo)
+
+                        })
+                        .catch(error => console.error(error))
+                }
+            }).catch(error => console.log(error))
 
     };
+
+    //update user profile with name and picture
+    const updateUserInfoWithPicture = (name, imgURL, userInfo) => {
+        updateUserProfile({ displayName: name, photoURL: imgURL })
+            .then(() => {
+                // save user info to the database
+                storUserInfoToDatabase(userInfo)
+            })
+            .catch((error) => {
+                const errorMsg = error.message;
+                setErrorMessage(errorMsg);
+            });
+    };
+
+
+
+    //store user's information to the database
+    const storUserInfoToDatabase = (userInfo) => {
+        fetch(`${process.env.REACT_APP_URL}/users`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(userInfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+    }
 
     return (
         <div className="mx-2">
@@ -37,15 +98,13 @@ const Register = () => {
                                 </small>
                             )}
                         </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Name</span>
-                            </label>
+                        <div className="form-control mt-6">
                             <input
                                 type="text"
                                 {...register("name", { required: "Name is required" })}
-                                placeholder="Your full name"
                                 className="input input-bordered w-full "
+                                required
+                                placeholder="Enter your full name"
                             />
                             {errors.name && (
                                 <small className="text-red-500 text-left">
@@ -53,21 +112,33 @@ const Register = () => {
                                 </small>
                             )}
                         </div>
-                        <div className="form-control">
+                        <div className="form-control mt-6 border rounded-lg ">
                             <label className="label">
-                                <span className="label-text">Email</span>
+                                <span className="label-text">Select your image</span>
                             </label>
+                            <input
+                                type="file"
+                                {...register("img", { required: "image is required" })}
+                                // placeholder="Your full name"
+                                className="p-2 border-none outline-none"
+                                required
+                            />
+                            {errors.name && (
+                                <small className="text-red-500 text-left">
+                                    {errors.img.message}
+                                </small>
+                            )}
+                        </div>
+                        <div className="form-control mt-6">
                             <input
                                 type="email"
                                 {...register("email")}
                                 className="input input-bordered w-full "
                                 required
+                                placeholder="Enter your email"
                             />
                         </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Password</span>
-                            </label>
+                        <div className="form-control mt-6">
                             <input
                                 type="password"
                                 {...register("password", {
@@ -83,6 +154,7 @@ const Register = () => {
                                 })}
                                 className="input input-bordered w-full "
                                 required
+                                placeholder="Enter your password"
                             />
                             {errors.password && (
                                 <small className="text-red-500 text-left">
@@ -108,6 +180,7 @@ const Register = () => {
                 </form>
                 <div>
                     <button
+
                         className="flex justify-center items-center gap-6 border border-[#F45510] text-[#F45510] py-4 w-full rounded-lg"
                     >
                         <FcGoogle className="text-2xl" />
