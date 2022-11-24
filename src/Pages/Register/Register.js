@@ -40,12 +40,11 @@ const Register = () => {
                             }
                             //update user info
                             updateUserInfoWithPicture(data.name, imgData.data.display_url, userInfo)
-
                         })
                         .catch(error => console.error(error))
                 }
             }).catch(error => console.log(error))
-
+        reset();
     };
 
     //update user profile with name and picture
@@ -61,7 +60,25 @@ const Register = () => {
             });
     };
 
-
+    //user login with google account
+    const loginWithGoogle = () => {
+        loginUserWithGoogle()
+            .then((result) => {
+                const loginUser = result.user;
+                setErrorMessage("");
+                const userInfo = {
+                    name: loginUser.displayName,
+                    email: loginUser.email,
+                    role: 'Buyer'
+                }
+                // save user info to the database
+                storUserInfoToDatabase(userInfo)
+            })
+            .catch((error) => {
+                const errorMsg = error.message;
+                setErrorMessage(errorMsg);
+            })
+    };
 
     //store user's information to the database
     const storUserInfoToDatabase = (userInfo) => {
@@ -73,6 +90,9 @@ const Register = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
+                if (data.acknowledged) {
+
+                }
             })
     }
 
@@ -180,7 +200,7 @@ const Register = () => {
                 </form>
                 <div>
                     <button
-
+                        onClick={loginWithGoogle}
                         className="flex justify-center items-center gap-6 border border-[#F45510] text-[#F45510] py-4 w-full rounded-lg"
                     >
                         <FcGoogle className="text-2xl" />
