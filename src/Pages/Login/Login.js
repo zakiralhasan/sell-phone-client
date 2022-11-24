@@ -1,18 +1,69 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Contexts/AuthProvider";
 
 
 const Login = () => {
+    const [errorMessage, setErrorMessage] = useState()
     //used for react hook form
     const { register, handleSubmit, reset } = useForm();
+    //used auth context
+    const { user, loginUser, loginUserWithGoogle } = useContext(AuthContext)
 
-    //login user
+
     const handleLoginForm = (data) => {
 
-
-
+        //user login with email and password
+        loginUser(data.email, data.password)
+            .then((result) => {
+                const loginUser = result.user;
+                reset();
+                setErrorMessage("");
+            })
+            .catch((error) => {
+                const errorMsg = error.message;
+                setErrorMessage(errorMsg);
+                reset();
+            })
     };
+
+    //user login with google account
+    const loginWithGoogle = () => {
+        loginUserWithGoogle()
+            .then((result) => {
+                const loginUser = result.user;
+                setErrorMessage("");
+                const userInfo = {
+                    name: loginUser.displayName,
+                    email: loginUser.email,
+                    role: 'Buyer'
+                }
+                // save user info to the database
+                storUserInfoToDatabase(userInfo)
+            })
+            .catch((error) => {
+                const errorMsg = error.message;
+                setErrorMessage(errorMsg);
+            })
+    };
+
+    //store user's information to the database
+    const storUserInfoToDatabase = (userInfo) => {
+        fetch(`${process.env.REACT_APP_URL}/users`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(userInfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.acknowledged) {
+
+                }
+            })
+    }
 
     return (
         <div className="mx-2">
@@ -65,6 +116,7 @@ const Login = () => {
                 </form>
                 <div>
                     <button
+                        onClick={loginWithGoogle}
                         className="flex justify-center items-center gap-6 border border-[#F45510] text-[#F45510] py-4 w-full rounded-lg"
                     >
                         <FcGoogle className="text-2xl" />
