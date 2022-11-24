@@ -4,7 +4,6 @@ import {
     FaFacebookSquare,
     FaTwitterSquare,
     FaYoutubeSquare,
-    FaGooglePlusSquare,
     FaLinkedin,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -34,7 +33,7 @@ const Footer = () => {
             </div>
             <hr className="my-5" />
             <div>
-                <div className="flex justify-center gap-6 mb-4">
+                <div className="flex justify-center gap-8 mb-4">
                     <a href="https://www.facebook.com/">
                         <FaFacebookSquare className="text-white text-2xl" />
                     </a>
@@ -43,9 +42,6 @@ const Footer = () => {
                     </a>
                     <a href="https://www.youtube.com/">
                         <FaYoutubeSquare className="text-white text-2xl" />
-                    </a>
-                    <a href="https://www.google.com/">
-                        <FaGooglePlusSquare className="text-white text-2xl" />
                     </a>
                     <a href="https://www.linkedin.com/">
                         <FaLinkedin className="text-white text-2xl" />

@@ -7,7 +7,7 @@ const ErrorPage = () => {
         <div className="bg-gray-100 flex justify-center items-center h-screen">
             <div className="bg-gray-50 shadow-lg p-6 text-center rounded-md">
                 <div className="flex justify-center items-center">
-                    <h1 className="text-6xl mb-4 text-red-500 ">Oops</h1>
+                    <h1 className="text-6xl mb-4 text-[#F45510] ">Oops</h1>
                     <h1 className="text-6xl mb-4 text-red-500 animate-bounce">!</h1>
                 </div>
                 <h4>An unexpected error has occurred.</h4>
