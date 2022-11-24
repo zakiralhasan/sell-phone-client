@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
+
 
 const Footer = () => {
     return (
-        <div>
-            <p>Footer</p>
-        </div>
+        <h1>Footer</h1>
     );
 };
 
