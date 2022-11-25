@@ -83,7 +83,7 @@ const Register = () => {
 
     //store user's information to the database
     const storUserInfoToDatabase = (userInfo) => {
-        fetch(`${process.env.REACT_APP_URL}/users`, {
+        fetch(`${process.env.REACT_APP_API_URL}/users`, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(userInfo)
