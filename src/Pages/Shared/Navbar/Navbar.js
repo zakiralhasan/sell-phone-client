@@ -69,7 +69,8 @@ const Navbar = () => {
                                     Logout
                                 </button>
                                 <div className="w-8 rounded-full ml-2">
-                                    <img className="rounded-full " src={user?.photoURL ? user?.photoURL : 'https://i.ibb.co/rp0mZgF/backup-profile-pic.jpg'} alt="" title="" />
+                                    <label htmlFor="dashboard-drawer" className="drawer-button lg:hidden cursor-pointer"><img className="rounded-full" src={user?.photoURL ? user?.photoURL : 'https://i.ibb.co/rp0mZgF/backup-profile-pic.jpg'} alt="" /></label>
+                                    <img className="rounded-full lg:block hidden" src={user?.photoURL ? user?.photoURL : 'https://i.ibb.co/rp0mZgF/backup-profile-pic.jpg'} alt="" title="" />
                                 </div>
                             </div>
                         ) : (

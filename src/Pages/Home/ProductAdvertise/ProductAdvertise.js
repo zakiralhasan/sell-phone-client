@@ -21,7 +21,7 @@ const ProductAdvertise = () => {
             <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-4 '>
                 {
                     products?.map(product => <ProductCard
-                        key={product.id}
+                        key={product._id}
                         product={product}
                     ></ProductCard>)
                 }</div>
