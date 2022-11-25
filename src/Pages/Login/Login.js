@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
@@ -13,6 +13,10 @@ const Login = () => {
     //used auth context
     const { user, loginUser, loginUserWithGoogle } = useContext(AuthContext)
 
+    //used for login user redirect path issue
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const handleLoginForm = (data) => {
 
@@ -23,6 +27,7 @@ const Login = () => {
                 console.log(loginUser)
                 reset();
                 setErrorMessage("");
+                navigate(from, { replace: true }); //used for login user redirect path
             })
             .catch((error) => {
                 const errorMsg = error.message;
@@ -44,6 +49,7 @@ const Login = () => {
                 }
                 // save user info to the database
                 storUserInfoToDatabase(userInfo)
+                navigate(from, { replace: true }); //used for login user redirect path
             })
             .catch((error) => {
                 const errorMsg = error.message;
