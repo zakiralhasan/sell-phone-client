@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../../Contexts/AuthProvider";
+import { toast } from "react-toastify";
 
 const Reset = () => {
+    const [errorMessage, setErrorMessage] = useState()
     //used for react hook form
     const { register, handleSubmit, reset } = useForm();
+    //used auth context
+    const { user, resetUserPassword } = useContext(AuthContext)
 
 
     //login user
-    const handleLoginForm = (data) => {
+    const handleResetForm = (data) => {
 
         console.log(data)
+
+        resetUserPassword(data.email)
+            .then(() => {
+                setErrorMessage("");
+                reset();
+                toast.success("Please check your inbox or spam box!");
+            })
+            .catch((error) => {
+                setErrorMessage(error.message);
+                reset();
+            });
 
     };
 
@@ -19,7 +34,7 @@ const Reset = () => {
         <div className="mx-2">
             <div className="bg-white max-w-sm mx-auto p-8 my-6 rounded-md shadow-md ">
                 <h1 className="text-2xl font-medium mb-2">Reset Password</h1>
-                <form onSubmit={handleSubmit(handleLoginForm)}>
+                <form onSubmit={handleSubmit(handleResetForm)}>
                     <div className="">
                         <div className="form-control">
                             <label className="label">

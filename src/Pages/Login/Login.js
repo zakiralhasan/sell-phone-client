@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
@@ -19,6 +20,7 @@ const Login = () => {
         loginUser(data.email, data.password)
             .then((result) => {
                 const loginUser = result.user;
+                console.log(loginUser)
                 reset();
                 setErrorMessage("");
             })
@@ -52,7 +54,7 @@ const Login = () => {
     //store user's information to the database
     const storUserInfoToDatabase = (userInfo) => {
         fetch(`${process.env.REACT_APP_URL}/users`, {
-            method: 'POST',
+            method: 'PUT',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(userInfo)
         })
@@ -60,7 +62,7 @@ const Login = () => {
             .then(data => {
                 console.log(data)
                 if (data.acknowledged) {
-
+                    toast.success('You have successfully login')
                 }
             })
     }

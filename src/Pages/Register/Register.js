@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const [errorMessage, setErrorMessage] = useState()
@@ -83,7 +84,7 @@ const Register = () => {
     //store user's information to the database
     const storUserInfoToDatabase = (userInfo) => {
         fetch(`${process.env.REACT_APP_URL}/users`, {
-            method: 'POST',
+            method: 'PUT',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(userInfo)
         })
@@ -91,7 +92,7 @@ const Register = () => {
             .then(data => {
                 console.log(data)
                 if (data.acknowledged) {
-
+                    toast.success('Your account has been created successfully!')
                 }
             })
     }
