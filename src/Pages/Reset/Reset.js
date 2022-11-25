@@ -11,11 +11,7 @@ const Reset = () => {
     //used auth context
     const { user, resetUserPassword } = useContext(AuthContext)
 
-
-    //login user
     const handleResetForm = (data) => {
-
-        console.log(data)
 
         resetUserPassword(data.email)
             .then(() => {
@@ -27,7 +23,6 @@ const Reset = () => {
                 setErrorMessage(error.message);
                 reset();
             });
-
     };
 
     return (

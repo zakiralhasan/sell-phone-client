@@ -2,11 +2,20 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import logo1 from '../../../images/logo/sell-phone-01.png'
-import logo2 from '../../../images/logo/sell-phone-02.png'
-import logo3 from '../../../images/logo/sell-phone-03.png'
-const Navbar = () => {
+import { useContext } from "react";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
+const Navbar = () => {
+    const { user, logOutUser } = useContext(AuthContext)
+
+    //logout user
+    const handleUserLogout = () => {
+        logOutUser()
+            .then(() => {
+
+            })
+            .catch((error) => console.error(error));
+    }
 
     const navItems = (
         <>
@@ -51,14 +60,28 @@ const Navbar = () => {
                         <ul className="menu menu-horizontal p-0">{navItems}</ul>
                     </div>
                     <div className="">
-                        <div className="flex items-center sm:ml-8 text-white">
-                            <Link to="/login">
-                                <button className="btn-ghost px-3 sm:px-5 py-2 ">
-                                    Login
+                        {user?.uid ? (
+                            <div className="flex items-center sm:ml-8 text-white">
+                                <button
+                                    onClick={handleUserLogout}
+                                    className="btn-ghost px-3 sm:px-5 py-2"
+                                >
+                                    Logout
                                 </button>
-                            </Link>
-                            <FaUserAlt className="ml-1" />
-                        </div>
+                                <div className="w-8 rounded-full ml-2">
+                                    <img className="rounded-full " src={user?.photoURL ? user?.photoURL : 'https://i.ibb.co/rp0mZgF/backup-profile-pic.jpg'} alt="" title="" />
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center sm:ml-8 text-white">
+                                <Link to="/login">
+                                    <button className="btn-ghost px-3 sm:px-5 py-2 ">
+                                        Login
+                                    </button>
+                                </Link>
+                                <FaUserAlt className="ml-1" />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

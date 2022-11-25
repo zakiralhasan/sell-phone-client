@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createContext } from 'react';
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import app from '../firebase/firebase.config';
 import { useState } from 'react';
 
@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
         return createUserWithEmailAndPassword(auth, email, password);
     };
 
-    //take user name, photo URL etc. during registration
+    //take user name, photo URL during registration
     const updateUserProfile = (profile) => {
         return updateProfile(auth.currentUser, profile);
     };
@@ -38,6 +38,10 @@ const AuthProvider = ({ children }) => {
         return sendPasswordResetEmail(auth, email);
     };
 
+    //logout user
+    const logOutUser = () => {
+        return signOut(auth);
+    };
     //login user observer
     useEffect(() => {
         const unsubscribeUser = onAuthStateChanged(auth, (currentUser) => {
@@ -48,7 +52,7 @@ const AuthProvider = ({ children }) => {
         return () => unsubscribeUser();
     }, []);
 
-    const authInfo = { user, loading, createUser, updateUserProfile, loginUser, loginUserWithGoogle, resetUserPassword }
+    const authInfo = { user, loading, createUser, updateUserProfile, loginUser, loginUserWithGoogle, logOutUser, resetUserPassword }
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
