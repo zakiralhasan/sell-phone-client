@@ -27,6 +27,12 @@ const Login = () => {
                 console.log(loginUser)
                 reset();
                 setErrorMessage("");
+                const userInfo = {
+                    name: loginUser.displayName,
+                    email: loginUser.email,
+                }
+                // save user info to the database
+                storUserInfoToDatabase(userInfo)
                 navigate(from, { replace: true }); //used for login user redirect path
             })
             .catch((error) => {
@@ -67,8 +73,9 @@ const Login = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                if (data.acknowledged) {
+                if (data.result.acknowledged) {
                     toast.success('You have successfully login')
+                    localStorage.setItem('accessToken', data.token)//stored access token at the local storage
                 }
             })
     }

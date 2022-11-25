@@ -91,8 +91,9 @@ const Register = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                if (data.acknowledged) {
+                if (data.result.acknowledged) {
                     toast.success('Your account has been created successfully!')
+                    localStorage.setItem('accessToken', data.token)//stored access token at the local storage
                 }
             })
     }

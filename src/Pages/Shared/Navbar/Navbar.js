@@ -12,7 +12,7 @@ const Navbar = () => {
     const handleUserLogout = () => {
         logOutUser()
             .then(() => {
-
+                localStorage.removeItem('accessToken')//remove access token from local storage after user logout
             })
             .catch((error) => console.error(error));
     }
