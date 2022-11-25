@@ -1,15 +1,17 @@
 import axios from "axios";
 import React from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AddProduct = () => {
     //used for react hook form
     const { register, handleSubmit, reset } = useForm();
+    const { user } = useContext(AuthContext)
 
     const handleAddProductForm = (data) => {
-        console.log(data)
         const category = data.category.toLowerCase();
 
         const image = data.img[0]
@@ -36,8 +38,9 @@ const AddProduct = () => {
                         sellerLocation: data.sellerLocation,
                         usedTime: data.usedTime,
                         description: data.description,
-                        postedTime: new Date(),
-                        productImg: imgData.data.display_url
+                        postedTime: new Date().toLocaleString(),
+                        productImg: imgData.data.display_url,
+                        email: user.email
                     })
                         .then(productData => {
                             if (productData.data.acknowledged) {
@@ -47,13 +50,13 @@ const AddProduct = () => {
                         .catch(error => console.log(error))
                 }
             }).catch(error => console.log(error))
-        // reset();
+        reset();
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit(handleAddProductForm)}>
-                <div className="m-4 border p-4">
+                <div className="bg-white mx-4 mt-10 p-4 rounded-md shadow-md">
                     <div className=" ">
                         <div className="grid lg:grid-cols-2 gap-4">
                             <select
@@ -127,11 +130,11 @@ const AddProduct = () => {
                             </div>
                             <textarea {...register("description")} className="textarea textarea-bordered" placeholder="Enter description"></textarea>
                         </div>
-                        <div className="form-control">
+                        <div className="flex justify-center">
                             <input
                                 type="submit"
-                                className="bg-[#F45510] mt-5 py-4 text-white rounded-lg cursor-pointer"
-                                value="Reset"
+                                className="bg-[#F45510] w-32 mt-5 py-4 text-white rounded-lg cursor-pointer"
+                                value="Submit"
                             />
                         </div>
                     </div>
@@ -142,11 +145,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-
-/* <div className="form-control">
-<input
-    type="submit"
-    className="bg-[#F45510] mt-5 py-4 text-white rounded-lg cursor-pointer"
-    value="Reset"
-/>
-</div> */
