@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import ProductDetailsModal from '../../Components/ProductDetailsModal/ProductDetailsModal';
 
 const ProductCategory = () => {
+    const [productDetails, setProductDetails] = useState('')
     const products = useLoaderData()
-    console.log(products)
+    // console.log(products)
 
-    // const { category, condition, description, id, originalPrice, postedTime, productImg, productName, resellPrice, sellerLocation, sellerMobileNumber, usedTime }
     return (
         <div className='w-11/12 mx-auto my-5'>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-4 '>
@@ -29,7 +30,7 @@ const ProductCategory = () => {
                                 </div>
 
                                 <div className="flex gap-3 justify-between border p-1 bg-gray-100 rounded-md">
-                                    <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">See Details</button>
+                                    <label onClick={() => setProductDetails(product)} htmlFor="product-details-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">See Details</label>
                                     <button className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Book Now</button>
                                     <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Add to Wishlist</button>
                                 </div>
@@ -38,6 +39,7 @@ const ProductCategory = () => {
                     </div>)
                 }
             </div>
+            <ProductDetailsModal productDetails={productDetails}></ProductDetailsModal>
         </div>
     );
 };

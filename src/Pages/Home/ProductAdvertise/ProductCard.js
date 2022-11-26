@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, setProductDetails }) => {
 
     const { category, condition, description, id, originalPrice, postedTime, productImg, productName, resellPrice, sellerLocation, sellerMobileNumber, usedTime } = product
 
@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
                     </div>
 
                     <div className="flex gap-3 justify-between border p-1 bg-gray-100 rounded-md">
-                        <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">See Details</button>
+                        <label onClick={() => setProductDetails(product)} htmlFor="product-details-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">See Details</label>
                         <button className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Book Now</button>
                         <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Add to Wishlist</button>
                     </div>
@@ -37,3 +37,4 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
+/* <label htmlFor="product-details-modal" className="btn">open modal</label> */ 
