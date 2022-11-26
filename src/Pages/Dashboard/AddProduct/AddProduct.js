@@ -41,7 +41,9 @@ const AddProduct = () => {
                         postedTime: new Date().toLocaleString(),
                         productImg: imgData.data.display_url,
                         sellerName: user.displayName,
-                        email: user.email
+                        email: user.email,
+                        status: false,
+                        advertised: false
                     })
                         .then(productData => {
                             if (productData.data.acknowledged) {
