@@ -7,6 +7,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
+import ProductCategory from "../Pages/ProductCategory/ProductCategory";
 import Register from "../Pages/Register/Register";
 import Reset from "../Pages/Reset/Reset";
 import PrivetRoute from "./PrivetRoute";
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             { path: 'register', element: <Register></Register> },
             { path: 'login', element: <Login></Login> },
             { path: 'reset', element: <Reset></Reset> },
+            {
+                path: 'category/:name', element: <ProductCategory></ProductCategory>,
+                loader: ({ params }) => fetch(`${process.env.REACT_APP_API_URL}/category/${params.name}`)
+            },
         ]
     },
     {

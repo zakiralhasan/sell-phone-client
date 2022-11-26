@@ -9,14 +9,26 @@ const ProductCard = ({ product }) => {
     console.log()
     return (
         <div>
-            <div className="p-2 mx-auto card card-compact sm:max-w-[24rem] bg-base-100 shadow-md">
-                <img className='max-h-[15rem] min-h-[8rem] ' src={productImg} alt="Shoes" />
-                <div className="card-body">
-                    <h2 className="card-title">{productName}</h2>
-                    <small>{description}</small>
-                    <small>{postedTime}</small>
-                    <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
+
+            <div className="p-2 mx-auto max-w-[24rem] bg-base-100 shadow-md rounded-md">
+                <img className='max-h-[15rem] min-h-[10rem] w-full ' src={productImg} alt="Shoes" />
+                <div className="my-2 ">
+                    <div className='flex justify-between items-center'>
+                        <h2 className="card-title">{productName}</h2>
+                        <small><span className='font-medium'>Posted:</span>{postedTime}</small>
+                    </div>
+                    <div className='my-2 grid grid-cols-2 gap- text-left'>
+                        <p>Resell Price: ${resellPrice}</p>
+                        <p>Original Price: ${originalPrice}</p>
+                        <p>Condition: {condition}</p>
+                        <p>Used time: {usedTime}</p>
+                        <p>Location: {sellerLocation}</p>
+                    </div>
+
+                    <div className="flex gap-3 justify-between border p-1 bg-gray-100 rounded-md">
+                        <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">See Details</button>
+                        <button className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Book Now</button>
+                        <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Add to Wishlist</button>
                     </div>
                 </div>
             </div>

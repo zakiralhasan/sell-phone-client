@@ -40,6 +40,7 @@ const AddProduct = () => {
                         description: data.description,
                         postedTime: new Date().toLocaleString(),
                         productImg: imgData.data.display_url,
+                        sellerName: user.displayName,
                         email: user.email
                     })
                         .then(productData => {
@@ -133,7 +134,7 @@ const AddProduct = () => {
                         <div className="flex justify-center">
                             <input
                                 type="submit"
-                                className="bg-[#F45510] w-32 mt-5 py-4 text-white rounded-lg cursor-pointer"
+                                className="bg-[#2CBBD5] w-32 mt-5 py-3 text-white rounded-lg cursor-pointer"
                                 value="Submit"
                             />
                         </div>
