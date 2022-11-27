@@ -7,21 +7,29 @@ import Loader from '../../../Components/Loader/Loader';
 import { AuthContext } from '../../../Contexts/AuthProvider';
 
 
-const MyWishList = () => {
+const MyReportList = () => {
     const { user } = useContext(AuthContext);
-    const { data: myOrders = [], isLoading, refetch } = useQuery({
-        queryKey: ['myProducts', user?.email],
+    const { data: rportings = [], isLoading, refetch } = useQuery({
+        queryKey: ['rportings', user?.email],
         queryFn: () =>
-            fetch(`${process.env.REACT_APP_API_URL}/myOrders?email=${user?.email}`)
+            fetch(`${process.env.REACT_APP_API_URL}/rportings?email=${user?.email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
                 .then(res => res.json())
     });
 
     //delete order from the server
-    const handleDeletOrder = id => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/myOrders/${id}`)
+    const handleDeleteReport = id => {
+        axios.delete(`${process.env.REACT_APP_API_URL}/rportings/${id}`, {
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(sellerData => {
                 if (sellerData.data.acknowledged) {
-                    toast.success('Buyer has been deleted successfully!')
+                    toast.success('Report has been deleted successfully!')
                     refetch()
                 }
             })
@@ -35,7 +43,7 @@ const MyWishList = () => {
     return (
         <div className='mx-5 lg:mx-14 '>
             <div className='text-2xl text-left mt-14 mb-6'>
-                <h1 className='text-2xl text-left '>My Wishlist</h1>
+                <h1 className='text-2xl text-left '>My Report List</h1>
             </div>
             <div className="overflow-x-auto">
                 <table className="table w-full">
@@ -44,27 +52,21 @@ const MyWishList = () => {
                         <tr>
                             <th></th>
                             <th>Name</th>
-                            <th>Payment</th>
+                            <th>Reporting ID</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
                     {/* <!-- body --> */}
                     <tbody className='text-xs sm:text-base'>
-                        {myOrders?.map((order, index) => <tr key={order._id}>
+                        {rportings?.map((report, index) => <tr key={report._id}>
                             <th>{index + 1}</th>
-                            <td>{order.productName}</td>
+                            <td>{report.productName}</td>
                             <td>
-                                {
-                                    order?.payment ? <button className='text-green-500 px-2 py-1 rounded-md  text-xs sm:text-base w-20'>Paid</button> :
-                                        <button
-                                            //   onClick={() => handleVerifiedSeller(seller.email)}
-                                            className='bg-[#2CBBD5] text-white px-2 py-1 rounded-md text-xs sm:text-base w-20'>Pay</button>
-
-                                }
+                                <p className='text-[#F45510] px-2 py-1 rounded-md text-xs sm:text-base '>{report.reportingID}</p>
                             </td>
                             <td>
                                 <button
-                                    onClick={() => handleDeletOrder(order._id)}
+                                    onClick={() => handleDeleteReport(report._id)}
                                     className='bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base '
                                 >Delete</button>
                             </td>
@@ -77,4 +79,4 @@ const MyWishList = () => {
     );
 };
 
-export default MyWishList;
+export default MyReportList;

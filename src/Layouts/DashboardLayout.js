@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 
 import { Link, Outlet } from 'react-router-dom';
 import { AuthContext } from '../Contexts/AuthProvider';
+import useUserRole from '../Hooks/UseUserRole';
 import Navbar from '../Pages/Shared/Navbar/Navbar';
 
 
 const DashboardLayout = () => {
     const { user } = useContext(AuthContext);
-
+    const [userRole] = useUserRole(user?.email)
     return (
         <div className="max-w-[1440px] mx-auto ">
             <Navbar></Navbar>
@@ -24,12 +25,32 @@ const DashboardLayout = () => {
                         <li><Link to='/dashboard'>Dashboard</Link></li>
                         {
                             <div>
-                                <li><Link to='/dashboard/myOrders'>My Orders</Link></li>
-                                <li><Link to='/dashboard/myWishList'>My Wishlist</Link></li>
-                                <li><Link to='/dashboard/sellers'>All Sellers</Link></li>
-                                <li><Link to='/dashboard/buyers'>All Buyers</Link></li>
-                                <li><Link to='/dashboard/myProducts'>My Products</Link></li>
-                                <li><Link to='/dashboard/addProduct'>Add New Product</Link></li>
+
+                                {
+                                    userRole === 'Buyer' &&
+                                    <div>
+                                        <li><Link to='/dashboard/myOrders'>My Orders</Link></li>
+                                        <li><Link to='/dashboard/myReports'>My Report List</Link></li>
+                                    </div>
+
+                                }
+
+                                {
+                                    userRole === 'Seller' &&
+                                    <div>
+                                        <li><Link to='/dashboard/myProducts'>My Products</Link></li>
+                                        <li><Link to='/dashboard/addProduct'>Add New Product</Link></li>
+                                    </div>
+                                }
+                                {
+                                    userRole === 'Admin' &&
+                                    <div>
+                                        <li><Link to='/dashboard/sellers'>All Sellers</Link></li>
+                                        <li><Link to='/dashboard/buyers'>All Buyers</Link></li>
+                                        <li><Link to='/dashboard/reportedItems'>All Reported Items</Link></li>
+                                    </div>
+                                }
+
                             </div>
                         }
                     </ul>

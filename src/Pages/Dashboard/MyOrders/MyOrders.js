@@ -10,15 +10,24 @@ import { AuthContext } from '../../../Contexts/AuthProvider';
 const MyOrders = () => {
     const { user } = useContext(AuthContext);
     const { data: myOrders = [], isLoading, refetch } = useQuery({
-        queryKey: ['myProducts', user?.email],
+        queryKey: ['myOrders', user?.email],
         queryFn: () =>
-            fetch(`${process.env.REACT_APP_API_URL}/myOrders?email=${user?.email}`)
+            fetch(`${process.env.REACT_APP_API_URL}/myOrders?email=${user?.email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
                 .then(res => res.json())
+                .catch(error => console.loge(error))
     });
 
     //delete order from the server
     const handleDeletOrder = id => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/myOrders/${id}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/myOrders/${id}`, {
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
             .then(sellerData => {
                 if (sellerData.data.acknowledged) {
                     toast.success('Buyer has been deleted successfully!')
@@ -35,7 +44,7 @@ const MyOrders = () => {
     return (
         <div className='mx-5 lg:mx-14 '>
             <div className='text-2xl text-left mt-14 mb-6'>
-                <h1 className='text-2xl text-left '>All Sellers</h1>
+                <h1 className='text-2xl text-left '>My Order List</h1>
             </div>
             <div className="overflow-x-auto">
                 <table className="table w-full">

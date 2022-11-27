@@ -18,7 +18,13 @@ const AllSellers = () => {
 
     //handle verify seller
     const handleVerifiedSeller = email => {
-        axios.put(`${process.env.REACT_APP_API_URL}/seller?email=${email}`)
+        axios.put(`${process.env.REACT_APP_API_URL}/seller?email=${email}`, {
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            },
+        }
+        )
             .then(verifiedData => {
                 console.log(verifiedData)
                 if (verifiedData.data.result.acknowledged && verifiedData.data.verifiedSeller.acknowledged) {
@@ -31,7 +37,12 @@ const AllSellers = () => {
 
     //delete seller from the server
     const handleDeletSeller = id => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/seller/${id}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/seller/${id}`, {
+            headers: {
+                'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            },
+        })
             .then(sellerData => {
                 if (sellerData.data.acknowledged) {
                     toast.success('Seller has been deleted successfully!')
