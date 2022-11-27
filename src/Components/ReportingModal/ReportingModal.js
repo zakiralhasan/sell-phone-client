@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Contexts/AuthProvider';
 
 
-const BookingModal = ({ productDetails, setCloseBookingModal, handleBooking }) => {
+const ReportingModal = ({ productDetails, setCloseBookingModal, handleReporting }) => {
     const { _id, productName, resellPrice, email } = productDetails
     const { user } = useContext(AuthContext)
 
@@ -14,32 +14,31 @@ const BookingModal = ({ productDetails, setCloseBookingModal, handleBooking }) =
 
     const bookingForm = (data) => {
 
-        const bokingInfo = {
-            bookingID: _id,
+        const reportingInfo = {
+            reportingID: _id,
             productName,
             productPrice: resellPrice,
             buyerName: user.displayName,
             buyerEmail: user.email,
             buyerLocation: data.buyerLocation,
+            description: data.description,
             buyerMobileNumber: data.buyerMobileNumber,
             sellerEmail: email,
-            payment: false,
-            orderTime: new Date().toLocaleString(),
-            order: true,
-            wish: false
+            reportingTime: new Date().toLocaleString(),
+
         }
 
-        handleBooking(bokingInfo)
+        handleReporting(reportingInfo)
         reset()
         setCloseBookingModal(false)
     }
     return (
         <div>
             {/* Put this part before </body> tag */}
-            <input type="checkbox" id="booking-modal" className="modal-toggle" />
+            <input type="checkbox" id="reporting-modal" className="modal-toggle" />
             <div className="modal">
                 <div className="modal-box relative">
-                    <label htmlFor="booking-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                    <label htmlFor="reporting-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div>
                         <div className="p-2 mx-auto max-w-[24rem] bg-base-100 shadow-md rounded-md">
                             <div className=''>
@@ -109,8 +108,9 @@ const BookingModal = ({ productDetails, setCloseBookingModal, handleBooking }) =
                                                 })}
                                                 className="input input-bordered w-full "
                                                 required
-                                                placeholder="Enter your pickup location"
+                                                placeholder="Enter your location"
                                             />
+                                            <textarea {...register("description")} className="textarea textarea-bordered mt-5" placeholder="Enter your report"></textarea>
                                             <input
                                                 type="submit"
                                                 className="bg-[#F45510] mt-5 py-4 text-white w-full rounded-lg cursor-pointer"
@@ -128,4 +128,4 @@ const BookingModal = ({ productDetails, setCloseBookingModal, handleBooking }) =
     );
 };
 
-export default BookingModal;
+export default ReportingModal;

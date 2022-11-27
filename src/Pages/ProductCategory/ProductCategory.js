@@ -4,6 +4,7 @@ import { useLoaderData } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BookingModal from '../../Components/BookingModal/BookingModal';
 import ProductDetailsModal from '../../Components/ProductDetailsModal/ProductDetailsModal';
+import ReportingModal from '../../Components/ReportingModal/ReportingModal';
 
 const ProductCategory = () => {
     const [productDetails, setProductDetails] = useState('')
@@ -17,13 +18,28 @@ const ProductCategory = () => {
             .then(bookingData => {
                 console.log(bookingData)
                 if (bookingData.data.acknowledged) {
-                    toast.success('Your booking successfull!')
+                    toast.success('Booking successfull!')
                 }
                 toast.warning(bookingData.data.message)
             })
             .catch(error => console.log(error))
             .finally(() => setCloseBookingModal(true))
     }
+
+    //store reporting data to the server
+    const handleReporting = reportingInfo => {
+        axios.post(`${process.env.REACT_APP_API_URL}/rportings`, reportingInfo)
+            .then(reportedData => {
+                console.log(reportedData)
+                if (reportedData.data.acknowledged) {
+                    toast.success('Reporting successfull!')
+                }
+                toast.warning(reportedData.data.message)
+            })
+            .catch(error => console.log(error))
+            .finally(() => setCloseBookingModal(true))
+    }
+
 
     return (
         <div className='w-11/12 mx-auto my-5'>
@@ -50,20 +66,31 @@ const ProductCategory = () => {
                                 <div className="flex gap-3 justify-between border p-1 bg-gray-100 rounded-md">
                                     <label onClick={() => setProductDetails(product)} htmlFor="product-details-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">See Details</label>
                                     <label onClick={() => setProductDetails(product)} htmlFor="booking-modal" className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">Book Now</label>
-                                    <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Add to Wishlist</button>
+                                    <label onClick={() => setProductDetails(product)} htmlFor="reporting-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">Add to Report</label>
                                 </div>
                             </div>
                         </div>
                     </div>)
                 }
             </div>
+            {/* Product detalis modal section */}
             <ProductDetailsModal productDetails={productDetails}></ProductDetailsModal>
+
+            {/* Booking modal section */}
             {closeBookingModal &&
                 <BookingModal
                     productDetails={productDetails}
                     handleBooking={handleBooking}
                     setCloseBookingModal={setCloseBookingModal}
                 ></BookingModal>}
+
+            {/* retprting modal section */}
+            {closeBookingModal &&
+                <ReportingModal
+                    productDetails={productDetails}
+                    handleReporting={handleReporting}
+                    setCloseBookingModal={setCloseBookingModal}
+                ></ReportingModal>}
         </div>
     );
 };

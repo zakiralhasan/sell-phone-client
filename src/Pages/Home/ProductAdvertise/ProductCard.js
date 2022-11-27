@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProductCard = ({ product, setProductDetails }) => {
 
-    const { category, condition, description, id, originalPrice, postedTime, productImg, productName, resellPrice, sellerLocation, sellerMobileNumber, usedTime } = product
+    const { condition, originalPrice, postedTime, productImg, productName, resellPrice, sellerLocation, usedTime } = product
 
     // const date = new Date().toString()
     // const date = new Date()
@@ -28,7 +28,7 @@ const ProductCard = ({ product, setProductDetails }) => {
                     <div className="flex gap-3 justify-between border p-1 bg-gray-100 rounded-md">
                         <label onClick={() => setProductDetails(product)} htmlFor="product-details-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">See Details</label>
                         <label onClick={() => setProductDetails(product)} htmlFor="booking-modal" className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">Book Now</label>
-                        <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Add to Wishlist</button>
+                        <label onClick={() => setProductDetails(product)} htmlFor="reporting-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">Add to Report</label>
                     </div>
                 </div>
             </div>
@@ -37,4 +37,3 @@ const ProductCard = ({ product, setProductDetails }) => {
 };
 
 export default ProductCard;
-/* <label htmlFor="product-details-modal" className="btn">open modal</label> */ 
