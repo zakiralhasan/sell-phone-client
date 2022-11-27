@@ -1,12 +1,17 @@
+import axios from 'axios';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import BookingModal from '../../../Components/BookingModal/BookingModal';
 import ProductDetailsModal from '../../../Components/ProductDetailsModal/ProductDetailsModal';
 import ProductCard from './ProductCard';
 
 const ProductAdvertise = () => {
+    const [closeBookingModal, setCloseBookingModal] = useState(true)
     const [productDetails, setProductDetails] = useState('')
     const [products, setProducts] = useState(null)
+
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/products`)
             .then(res => res.json())
@@ -15,6 +20,19 @@ const ProductAdvertise = () => {
             })
     }, [])
 
+    //store booking data to the server
+    const handleBooking = bokingInfo => {
+        axios.post(`${process.env.REACT_APP_API_URL}/bookings`, bokingInfo)
+            .then(bookingData => {
+                console.log(bookingData)
+                if (bookingData.data.acknowledged) {
+                    toast.success('Your booking successfull!')
+                }
+                toast.warning(bookingData.data.message)
+            })
+            .catch(error => console.log(error))
+            .finally(() => setCloseBookingModal(true))
+    }
 
     return (
         <div>
@@ -35,6 +53,12 @@ const ProductAdvertise = () => {
                 }
             </div>
             <ProductDetailsModal productDetails={productDetails}></ProductDetailsModal>
+            {closeBookingModal &&
+                <BookingModal
+                    productDetails={productDetails}
+                    handleBooking={handleBooking}
+                    setCloseBookingModal={setCloseBookingModal}
+                ></BookingModal>}
         </div>
     );
 };

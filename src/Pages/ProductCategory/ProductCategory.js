@@ -1,11 +1,29 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import BookingModal from '../../Components/BookingModal/BookingModal';
 import ProductDetailsModal from '../../Components/ProductDetailsModal/ProductDetailsModal';
 
 const ProductCategory = () => {
     const [productDetails, setProductDetails] = useState('')
-    const products = useLoaderData()
-    // console.log(products)
+    const [closeBookingModal, setCloseBookingModal] = useState(true)
+
+    const products = useLoaderData() // called use loader from react
+
+    //store booking data to the server
+    const handleBooking = bokingInfo => {
+        axios.post(`${process.env.REACT_APP_API_URL}/bookings`, bokingInfo)
+            .then(bookingData => {
+                console.log(bookingData)
+                if (bookingData.data.acknowledged) {
+                    toast.success('Your booking successfull!')
+                }
+                toast.warning(bookingData.data.message)
+            })
+            .catch(error => console.log(error))
+            .finally(() => setCloseBookingModal(true))
+    }
 
     return (
         <div className='w-11/12 mx-auto my-5'>
@@ -31,7 +49,7 @@ const ProductCategory = () => {
 
                                 <div className="flex gap-3 justify-between border p-1 bg-gray-100 rounded-md">
                                     <label onClick={() => setProductDetails(product)} htmlFor="product-details-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">See Details</label>
-                                    <button className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Book Now</button>
+                                    <label onClick={() => setProductDetails(product)} htmlFor="booking-modal" className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">Book Now</label>
                                     <button className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base ">Add to Wishlist</button>
                                 </div>
                             </div>
@@ -40,6 +58,12 @@ const ProductCategory = () => {
                 }
             </div>
             <ProductDetailsModal productDetails={productDetails}></ProductDetailsModal>
+            {closeBookingModal &&
+                <BookingModal
+                    productDetails={productDetails}
+                    handleBooking={handleBooking}
+                    setCloseBookingModal={setCloseBookingModal}
+                ></BookingModal>}
         </div>
     );
 };
