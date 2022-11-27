@@ -23,6 +23,7 @@ const BookingModal = ({ productDetails, setCloseBookingModal, handleBooking }) =
             buyerLocation: data.buyerLocation,
             buyerMobileNumber: data.buyerMobileNumber,
             sellerEmail: email,
+            payment: false
         }
 
         handleBooking(bokingInfo)
