@@ -1,18 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
-import { useState } from 'react';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../../Components/Loader/Loader';
 import { AuthContext } from '../../../Contexts/AuthProvider';
 
 
-
 const MyProducts = () => {
     const { user } = useContext(AuthContext);
-    const { data: myProducts = [], isLoading } = useQuery({
+    const { data: myProducts = [], isLoading, refetch } = useQuery({
         queryKey: ['myProducts', user?.email],
         queryFn: () =>
             fetch(`${process.env.REACT_APP_API_URL}/myProducts?email=${user?.email}`)
@@ -20,23 +17,33 @@ const MyProducts = () => {
     });
 
     //set product for advertise
-    const setProductAdvertise = id => {
-        console.log(id)
+    const setProductForAdvertise = id => {
         axios.put(`${process.env.REACT_APP_API_URL}/productAdvertise/${id}`)
             .then(advertiseData => {
-                console.log(advertiseData)
                 if (advertiseData.data.acknowledged) {
                     toast.success('Your porduct has been selected for advertise!')
+                    refetch()
                 }
             })
             .catch(error => console.log(error))
     }
 
+    //delete product from my porduct list
+    const handleDeletProduct = id => {
+        axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`)
+            .then(advertiseData => {
+                if (advertiseData.data.acknowledged) {
+                    toast.success('Your porduct has been deleted successfully!')
+                    refetch()
+                }
+            })
+            .catch(error => console.log(error))
+    }
 
     if (isLoading) {
         return <Loader></Loader>
     }
-    console.log(myProducts)
+
     return (
         <div className='mx-5 lg:mx-14 '>
             <div className='text-2xl text-left mt-14 mb-6'>
@@ -64,7 +71,7 @@ const MyProducts = () => {
                             <td>${parseFloat(product.resellPrice)}</td>
                             <td>
                                 <button
-                                    onClick={() => setProductAdvertise(product._id)}
+                                    onClick={() => setProductForAdvertise(product._id)}
                                     disabled={product?.advertise}
                                     className='bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base '
                                 >Set advertise</button>
@@ -82,6 +89,7 @@ const MyProducts = () => {
                             </td>
                             <td>
                                 <button
+                                    onClick={() => handleDeletProduct(product._id)}
                                     className='bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base '
                                 >Delete</button>
                             </td>
