@@ -51,7 +51,8 @@ const Login = () => {
                 const userInfo = {
                     name: loginUser.displayName,
                     email: loginUser.email,
-                    role: 'Buyer'
+                    role: 'Buyer',
+                    verified: false
                 }
                 // save user info to the database
                 storUserInfoToDatabase(userInfo)

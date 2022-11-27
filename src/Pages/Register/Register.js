@@ -37,7 +37,8 @@ const Register = () => {
                             const userInfo = {
                                 name: data.name,
                                 email: newUser.email,
-                                role: data.select
+                                role: data.select,
+                                verified: false
                             }
                             //update user info
                             updateUserInfoWithPicture(data.name, imgData.data.display_url, userInfo)
@@ -70,7 +71,8 @@ const Register = () => {
                 const userInfo = {
                     name: loginUser.displayName,
                     email: loginUser.email,
-                    role: 'Buyer'
+                    role: 'Buyer',
+                    verified: false
                 }
                 // save user info to the database
                 storUserInfoToDatabase(userInfo)
