@@ -9,6 +9,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import MyOrders from "../Pages/Dashboard/MyOrders/MyOrders";
 import MyProducts from "../Pages/Dashboard/MyProducts/MyProducts";
 import MyReportList from "../Pages/Dashboard/MyReportList/MyReportList";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 import ReportedItems from "../Pages/Dashboard/ReportedItems/ReportedItems";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home/Home";
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
             { path: '/dashboard/myOrders', element: <MyOrders></MyOrders> },
             { path: '/dashboard/myReports', element: <MyReportList></MyReportList> },
             { path: '/dashboard/reportedItems', element: <ReportedItems></ReportedItems> },
+            {
+                path: '/dashboard/payment/:id', element: <Payment></Payment>,
+                loader: ({ params }) => fetch(`${process.env.REACT_APP_API_URL}/bookings/${params.id}`)
+
+            },
         ]
     },
 ])

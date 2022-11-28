@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../../Components/Loader/Loader';
 import { AuthContext } from '../../../Contexts/AuthProvider';
@@ -65,9 +66,9 @@ const MyOrders = () => {
                             <td>
                                 {
                                     order?.payment ? <button className='text-green-500 px-2 py-1 rounded-md  text-xs sm:text-base w-20'>Paid</button> :
-                                        <button
-                                            //   onClick={() => handleVerifiedSeller(seller.email)}
-                                            className='bg-[#2CBBD5] text-white px-2 py-1 rounded-md text-xs sm:text-base w-20'>Pay</button>
+                                        <Link to={`/dashboard/payment/${order._id}`}>
+                                            <button className='bg-[#2CBBD5] text-white px-2 py-1 rounded-md text-xs sm:text-base w-20'>Pay</button>
+                                        </Link>
 
                                 }
                             </td>
