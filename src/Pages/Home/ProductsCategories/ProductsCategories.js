@@ -5,7 +5,7 @@ import img2 from '../../../images/category/category-2.jpg';
 import img3 from '../../../images/category/category-3.jpg';
 const ProductsCategories = () => {
     return (
-        <div className='mx-4 my-6 border p-2'>
+        <div className='mx-4 my-6 p-2'>
             <h1 className='my-8 text-5xl text-[#F45510]'>Products category</h1>
             <div className=''>
                 <div className='sm:flex justify-between p-2 border bg-white rounded-md shadow-md mt-6'>

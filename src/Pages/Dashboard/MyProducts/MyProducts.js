@@ -3,6 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
 import { toast } from 'react-toastify';
+import swal from 'sweetalert';
 import Loader from '../../../Components/Loader/Loader';
 import { AuthContext } from '../../../Contexts/AuthProvider';
 
@@ -12,13 +13,21 @@ const MyProducts = () => {
     const { data: myProducts = [], isLoading, refetch } = useQuery({
         queryKey: ['myProducts', user?.email],
         queryFn: () =>
-            fetch(`${process.env.REACT_APP_API_URL}/myProducts?email=${user?.email}`)
+            fetch(`${process.env.REACT_APP_API_URL}/myProducts?email=${user?.email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                },
+            })
                 .then(res => res.json())
     });
 
     //set product for advertise
     const setProductForAdvertise = id => {
-        axios.put(`${process.env.REACT_APP_API_URL}/productAdvertise/${id}`)
+        axios.put(`${process.env.REACT_APP_API_URL}/productAdvertise/${id}`, {
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            },
+        })
             .then(advertiseData => {
                 if (advertiseData.data.acknowledged) {
                     toast.success('Your porduct has been selected for advertise!')
@@ -30,14 +39,34 @@ const MyProducts = () => {
 
     //delete product from my porduct list
     const handleDeletProduct = id => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`)
-            .then(advertiseData => {
-                if (advertiseData.data.acknowledged) {
-                    toast.success('Your porduct has been deleted successfully!')
-                    refetch()
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this product!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`, {
+                        headers: {
+                            authorization: `bearer ${localStorage.getItem('accessToken')}`
+                        },
+                    })
+                        .then(advertiseData => {
+                            if (advertiseData.data.acknowledged) {
+                                refetch()
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    swal('Your porduct has been deleted successfully!', {
+                        icon: "success",
+                    });
+                } else {
+                    swal("Your product is safe!");
                 }
-            })
-            .catch(error => console.log(error))
+            });
+
     }
 
     if (isLoading) {
@@ -59,7 +88,6 @@ const MyProducts = () => {
                             <th>Price</th>
                             <th>Adverise</th>
                             <th>Status</th>
-                            <th>Update</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -78,14 +106,9 @@ const MyProducts = () => {
                             </td>
                             <td>
                                 {
-                                    product?.status ? <p className='text-green-500 px-2 py-1 rounded-md  text-xs sm:text-base w-20'>Sold</p> : <p className='text-[#F45510] px-2 py-1 rounded-md text-xs sm:text-base w-20'>Not Sold</p>
+                                    product?.payment ? <p className='text-green-500 px-2 py-1 rounded-md  text-xs sm:text-base w-20'>Sold</p> : <p className='text-[#F45510] px-2 py-1 rounded-md text-xs sm:text-base w-20'>Available</p>
 
                                 }
-                            </td>
-                            <td>
-                                <button
-                                    className='bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base '
-                                >Update</button>
                             </td>
                             <td>
                                 <button

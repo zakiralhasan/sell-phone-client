@@ -9,11 +9,11 @@ import useUserRole from "../Hooks/UseUserRole";
 
 const AdminRoute = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
-    const [userRole] = useUserRole(user?.email)
+    const [userRole, userLoading] = useUserRole(user?.email)
     const location = useLocation();
 
     //waiting for getting user with admin's data
-    if (loading) {
+    if (loading || userLoading) {
         return <Loader />
     }
 

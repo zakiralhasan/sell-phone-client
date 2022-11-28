@@ -51,10 +51,10 @@ const ProductAdvertise = () => {
 
     return (
         <div>
-            <div>
+            <div className='mt-12'>
                 {products &&
                     <div className='w-11/12 mx-auto my-5'>
-                        <h1 className='my-8'>Advertise section</h1>
+
                         <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-4 '>
                             {
                                 products?.map(product => <ProductCard

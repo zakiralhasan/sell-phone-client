@@ -2,11 +2,12 @@ import axios from "axios";
 import React from "react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AddProduct = () => {
+    const navigate = useNavigate()
     //used for react hook form
     const { register, handleSubmit, reset } = useForm();
     const { user } = useContext(AuthContext)
@@ -22,10 +23,6 @@ const AddProduct = () => {
         const url = `https://api.imgbb.com/1/upload?&key=${process.env.REACT_APP_HOST_KEY}`
         fetch(url, {
             method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            },
             body: formData,
         })
             .then(res => res.json())
@@ -46,18 +43,19 @@ const AddProduct = () => {
                         productImg: imgData.data.display_url,
                         sellerName: user.displayName,
                         email: user.email,
-                        status: false,
                         advertised: false
                     })
                         .then(productData => {
                             if (productData.data.acknowledged) {
                                 toast.success('Your product has been successfully added!')
+                                navigate('/dashboard/myProducts')
                             }
                         })
                         .catch(error => console.log(error))
                 }
             }).catch(error => console.log(error))
         reset();
+
     };
 
     return (

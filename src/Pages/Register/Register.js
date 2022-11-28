@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
@@ -14,6 +14,7 @@ const Register = () => {
     //used auth context
     const { user, createUser, updateUserProfile, loginUserWithGoogle } = useContext(AuthContext)
 
+    const navigate = useNavigate()
 
     //create or Register new user
     const handleRegisterForm = (data) => {
@@ -96,6 +97,7 @@ const Register = () => {
                 if (data.result.acknowledged) {
                     toast.success('Your account has been created successfully!')
                     localStorage.setItem('accessToken', data.token)//stored access token at the local storage
+                    navigate('/')
                 }
             })
     }

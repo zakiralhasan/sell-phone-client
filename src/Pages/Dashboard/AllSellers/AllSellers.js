@@ -3,6 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
 import { toast } from 'react-toastify';
+import swal from 'sweetalert';
 import Loader from '../../../Components/Loader/Loader';
 import { AuthContext } from '../../../Contexts/AuthProvider';
 
@@ -12,19 +13,18 @@ const AllSellers = () => {
     const { data: mySellers = [], isLoading, refetch } = useQuery({
         queryKey: ['mySellers'],
         queryFn: () =>
-            fetch(`${process.env.REACT_APP_API_URL}/users/seller`)
+            fetch(`${process.env.REACT_APP_API_URL}/users/seller`, {
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                },
+            })
                 .then(res => res.json())
     });
 
     //handle verify seller
     const handleVerifiedSeller = email => {
-        axios.put(`${process.env.REACT_APP_API_URL}/seller?email=${email}`, {
-            headers: {
-                'content-type': 'application/json',
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            },
-        }
-        )
+        axios.put(`${process.env.REACT_APP_API_URL}/seller?email=${email}`)
             .then(verifiedData => {
                 console.log(verifiedData)
                 if (verifiedData.data.result.acknowledged && verifiedData.data.verifiedSeller.acknowledged) {
@@ -37,19 +37,33 @@ const AllSellers = () => {
 
     //delete seller from the server
     const handleDeletSeller = id => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/seller/${id}`, {
-            headers: {
-                'content-type': 'application/json',
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            },
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this seller!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
-            .then(sellerData => {
-                if (sellerData.data.acknowledged) {
-                    toast.success('Seller has been deleted successfully!')
-                    refetch()
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.delete(`${process.env.REACT_APP_API_URL}/seller/${id}`, {
+                        headers: {
+                            authorization: `bearer ${localStorage.getItem('accessToken')}`
+                        },
+                    })
+                        .then(sellerData => {
+                            if (sellerData.data.acknowledged) {
+                                refetch()
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    swal('Seller has been deleted successfully!', {
+                        icon: "success",
+                    });
+                } else {
+                    swal("Seller is safe!");
                 }
-            })
-            .catch(error => console.log(error))
+            });
     }
 
     if (isLoading) {

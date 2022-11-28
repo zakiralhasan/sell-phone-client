@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
-import { toast } from 'react-toastify';
+import swal from 'sweetalert';
 import Loader from '../../../Components/Loader/Loader';
 import { AuthContext } from '../../../Contexts/AuthProvider';
 
@@ -23,19 +23,33 @@ const AllBuyers = () => {
 
     //delete seller from the server
     const handleDeletBuyer = id => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/buyer/${id}`, {
-            headers: {
-                'content-type': 'application/json',
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            },
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this buyer!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
-            .then(sellerData => {
-                if (sellerData.data.acknowledged) {
-                    toast.success('Buyer has been deleted successfully!')
-                    refetch()
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.delete(`${process.env.REACT_APP_API_URL}/buyer/${id}`, {
+                        headers: {
+                            authorization: `bearer ${localStorage.getItem('accessToken')}`
+                        },
+                    })
+                        .then(sellerData => {
+                            if (sellerData.data.acknowledged) {
+                                refetch()
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    swal('Buyer has been deleted successfully!', {
+                        icon: "success",
+                    });
+                } else {
+                    swal("Buyer is safe!");
                 }
-            })
-            .catch(error => console.log(error))
+            });
     }
 
     if (isLoading) {

@@ -29,11 +29,14 @@ const Navbar = () => {
                     isActive ? `text-[#F45510]` : `hover:text-[#F45510]`
                 } to="/blog">Blog</NavLink >
             </li>
-            <li>
-                <NavLink className={({ isActive }) =>
-                    isActive ? `text-[#F45510]` : `hover:text-[#F45510]`
-                } to="/dashboard">Dahsboard</NavLink >
-            </li>
+            {
+                user?.uid &&
+                <li>
+                    <NavLink className={({ isActive }) =>
+                        isActive ? `text-[#F45510]` : `hover:text-[#F45510]`
+                    } to="/dashboard">Dahsboard</NavLink >
+                </li>
+            }
         </>
     );
     return (
