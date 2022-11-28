@@ -11,7 +11,7 @@ const CheckoutForm = ({ booking }) => {
 
     const stripe = useStripe();
     const elements = useElements();
-    const { productName, productPrice, buyerEmail, _id } = booking;
+    const { productName, productPrice, buyerEmail, _id, bookingID } = booking;
 
 
     useEffect(() => {
@@ -75,7 +75,8 @@ const CheckoutForm = ({ booking }) => {
                 productPrice,
                 transactionId: paymentIntent.id,
                 buyerEmail,
-                paymentId: _id
+                paymentId: _id,
+                porductId: bookingID
             }
             fetch(`${process.env.REACT_APP_API_URL}/payments`, {
                 method: 'POST',

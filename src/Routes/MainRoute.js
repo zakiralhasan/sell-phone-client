@@ -17,6 +17,7 @@ import Login from "../Pages/Login/Login";
 import ProductCategory from "../Pages/ProductCategory/ProductCategory";
 import Register from "../Pages/Register/Register";
 import Reset from "../Pages/Reset/Reset";
+import AdminRoute from "./AdminRoute";
 import PrivetRoute from "./PrivetRoute";
 
 const router = createBrowserRouter([
@@ -39,11 +40,11 @@ const router = createBrowserRouter([
             { path: '/dashboard', element: <Dashboard></Dashboard> },
             { path: '/dashboard/addProduct', element: <AddProduct></AddProduct> },
             { path: '/dashboard/myProducts', element: <MyProducts></MyProducts> },
-            { path: '/dashboard/sellers', element: <AllSellers></AllSellers> },
-            { path: '/dashboard/buyers', element: <AllBuyers></AllBuyers> },
             { path: '/dashboard/myOrders', element: <MyOrders></MyOrders> },
             { path: '/dashboard/myReports', element: <MyReportList></MyReportList> },
-            { path: '/dashboard/reportedItems', element: <ReportedItems></ReportedItems> },
+            { path: '/dashboard/sellers', element: <AdminRoute><AllSellers></AllSellers></AdminRoute> },
+            { path: '/dashboard/buyers', element: <AdminRoute><AllBuyers></AllBuyers></AdminRoute> },
+            { path: '/dashboard/reportedItems', element: <AdminRoute><ReportedItems></ReportedItems></AdminRoute> },
             {
                 path: '/dashboard/payment/:id', element: <Payment></Payment>,
                 loader: ({ params }) => fetch(`${process.env.REACT_APP_API_URL}/bookings/${params.id}`)
