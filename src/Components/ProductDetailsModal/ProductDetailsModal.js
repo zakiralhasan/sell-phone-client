@@ -1,7 +1,20 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { BsCheckCircleFill } from "react-icons/bs";
 
 const ProductDetailsModal = ({ productDetails }) => {
-    const { category, condition, description, id, originalPrice, postedTime, productImg, productName, resellPrice, sellerLocation, sellerMobileNumber, usedTime } = productDetails
+    const [userData, setUserData] = useState()
+
+    const { category, condition, description, id, originalPrice, postedTime, productImg, productName, resellPrice, sellerLocation, sellerMobileNumber, usedTime, sellerName, email } = productDetails
+
+    //this ueseEffect is used for find verified users
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}/user?email=${productDetails?.email}`)
+            .then(data => setUserData(data.data))
+            .catch(error => console.log(error))
+    }, [productDetails?.email])
+
     return (
         <div>
             {/* Put this part before </body> tag */}
@@ -27,6 +40,16 @@ const ProductDetailsModal = ({ productDetails }) => {
                                 </div>
 
                                 <div className="text-left p-1 rounded-md">
+                                    {userData?.verified ?
+                                        <div className='flex gap-6 justify-start items-center'>
+                                            <p><span className='font-semibold'>Seller name: </span>{sellerName}</p>
+                                            <BsCheckCircleFill className='text-blue-500 pt-1 text-xl' />
+                                        </div>
+                                        :
+                                        <div>
+                                            <p><span className='font-semibold'>Seller name: </span>{sellerName}</p>
+                                        </div>
+                                    }
                                     <p><span className='font-semibold'>Seller mobile: </span>{sellerMobileNumber}</p>
                                     <p><span className='font-semibold'>Description:</span> {description}</p>
                                 </div>

@@ -43,7 +43,7 @@ const AddProduct = () => {
                         productImg: imgData.data.display_url,
                         sellerName: user.displayName,
                         email: user.email,
-                        advertised: false
+                        advertise: false
                     })
                         .then(productData => {
                             if (productData.data.acknowledged) {

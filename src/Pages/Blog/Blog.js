@@ -4,7 +4,7 @@ import React from "react";
 const Blog = () => {
     return (
         <div className="bg-gray-100">
-            <div className="py-8">
+            <div className="mt-8">
                 <div className="m-4 p-5 text-left border bg-white shadow-md rounded-md">
                     <h1 className="text-2xl font-medium">
                         What are the different ways to manage a state in a React application?
@@ -43,16 +43,16 @@ const Blog = () => {
                         </p>
                     </div>
                 </div>
-                <div className="m-4 p-5 text-left border bg-white shadow-md rounded-md">
-                    <h1 className="text-2xl font-medium">
-                        How does prototypical inheritance work?
-                    </h1>
-                    <div className="my-2">
-                        <p>
-                            <span className="text-xl font-semibold">Ans:</span>
-                            Every object with its methods and properties contains an internal and hidden property known as <b>Prototype</b>. The <b>Prototypal Inheritance</b> is a feature in javascript used to add methods and properties in objects. It is a method by which an object can inherit the properties and methods of another object.
-                        </p>
-                    </div>
+            </div>
+            <div className="m-4 p-5 text-left border bg-white shadow-md rounded-md">
+                <h1 className="text-2xl font-medium">
+                    How does prototypical inheritance work?
+                </h1>
+                <div className="my-2">
+                    <p>
+                        <span className="text-xl font-semibold">Ans:</span>
+                        Every object with its methods and properties contains an internal and hidden property known as <b>Prototype</b>. The <b>Prototypal Inheritance</b> is a feature in javascript used to add methods and properties in objects. It is a method by which an object can inherit the properties and methods of another object.
+                    </p>
                 </div>
             </div>
             <div className="m-4 p-5 text-left border bg-white shadow-md rounded-md">
@@ -70,7 +70,7 @@ const Blog = () => {
                     </p>
                 </div>
             </div>
-            <div className="m-4 p-5 text-left border bg-white shadow-md rounded-md">
+            <div className="mb-8 m-4 p-5 text-left border bg-white shadow-md rounded-md">
                 <h1 className="text-2xl font-medium">
                     React vs. Angular vs. Vue?
                 </h1>

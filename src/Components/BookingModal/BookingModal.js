@@ -26,7 +26,6 @@ const BookingModal = ({ productDetails, setCloseBookingModal, handleBooking }) =
             payment: false,
             orderTime: new Date().toLocaleString(),
             order: true,
-            wish: false
         }
 
         handleBooking(bokingInfo)

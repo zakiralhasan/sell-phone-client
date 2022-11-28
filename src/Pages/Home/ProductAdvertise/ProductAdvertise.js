@@ -68,7 +68,9 @@ const ProductAdvertise = () => {
                 }
             </div>
             {/* Product detalis modal section */}
-            <ProductDetailsModal productDetails={productDetails}></ProductDetailsModal>
+            <ProductDetailsModal
+                productDetails={productDetails}
+            ></ProductDetailsModal>
 
             {/* Booking modal section */}
             {closeBookingModal &&

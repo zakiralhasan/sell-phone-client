@@ -31,7 +31,7 @@ const router = createBrowserRouter([
             { path: 'login', element: <Login></Login> },
             { path: 'reset', element: <Reset></Reset> },
             {
-                path: 'category/:name', element: <ProductCategory></ProductCategory>,
+                path: 'category/:name', element: <PrivetRoute><ProductCategory></ProductCategory></PrivetRoute>,
                 loader: ({ params }) => fetch(`${process.env.REACT_APP_API_URL}/category/${params.name}`)
             },
         ]
