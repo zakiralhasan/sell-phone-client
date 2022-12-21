@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import { Link, Outlet } from 'react-router-dom';
+import SmallLoader from '../Components/SmallLoader/SmallLoader';
 import { AuthContext } from '../Contexts/AuthProvider';
 import useUserRole from '../Hooks/UseUserRole';
 import Navbar from '../Pages/Shared/Navbar/Navbar';
@@ -23,7 +24,7 @@ const DashboardLayout = () => {
                     <ul className="menu p-4 w-80 bg-base-100 text-base-content">
                         {/* <!-- Sidebar content here --> */}
                         <li><Link to='/dashboard'>Dashboard</Link></li>
-                        {
+                        {userRole ?
                             <div>
 
                                 {
@@ -32,7 +33,6 @@ const DashboardLayout = () => {
                                         <li><Link to='/dashboard/myOrders'>My Orders</Link></li>
                                         <li><Link to='/dashboard/myReports'>My Report List</Link></li>
                                     </div>
-
                                 }
 
                                 {
@@ -53,6 +53,8 @@ const DashboardLayout = () => {
                                 }
 
                             </div>
+                            :
+                            <SmallLoader></SmallLoader>
                         }
                     </ul>
 
