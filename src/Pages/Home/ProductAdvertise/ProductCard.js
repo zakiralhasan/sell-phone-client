@@ -24,12 +24,7 @@ const ProductCard = ({ product, setProductDetails }) => {
                         <p>Used time: {usedTime}</p>
                         <p>Location: {sellerLocation}</p>
                     </div>
-
-                    <div className="flex gap-3 justify-between border p-1 bg-gray-100 rounded-md">
-                        <label onClick={() => setProductDetails(product)} htmlFor="product-details-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">See Details</label>
-                        <label onClick={() => setProductDetails(product)} htmlFor="booking-modal" className="bg-[#F45510] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">Book Now</label>
-                        <label onClick={() => setProductDetails(product)} htmlFor="reporting-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">Add to Report</label>
-                    </div>
+                    <label onClick={() => setProductDetails(product)} htmlFor="product-details-modal" className="bg-[#2CBBD5] px-2 py-1 rounded-md text-white text-xs sm:text-base cursor-pointer">See Details</label>
                 </div>
             </div>
         </div>
